@@ -37,11 +37,11 @@ for t in tr:
     banks_lst.append(date[-1])
     all_data_lst.append(banks_lst)
 
-head_lst = list('#')
+head_lst = list()
 head = table_data('thead')
 head_th = head[0].find_all('th')
 
-# head_th = head_tr.find
+
 h = 0
 for t in head_th:
     if h == 0 :
@@ -59,9 +59,9 @@ for t in head_th:
 head_lst.append('date')
 
 
-c = 0
+
 now = datetime.now()
-current_time = now.strftime("%d%m%Y%H%M%S")
+current_time = now.strftime("%d-%m-%Y-%H-%M-%S")
 
 fname = 'data' + str(current_time) + '.csv'
 
@@ -73,27 +73,22 @@ new_l = list()
 head_buy = head[0].find_all('tr')
 
 head_sell = head_buy[1].find_all('td')
-print(head_sell)
+
+# new_l.append('#')
 for element in head_sell:
     eli = element.find('span').text
     new_l.append(eli)
 new_l.append('date')
 
 total = list()
+total.append(head_lst)
 total.append(new_l)
 for d in all_data_lst:
     total.append(d)
 
-with open(fname, 'w', newline='') as csv_file:
-    thewriter = csv.DictWriter(csv_file, fieldnames=head_lst)
-    thewriter.writeheader()
-    for bank in total:
-        c += 1
-        thewriter.writerow({head_lst[0]:c, head_lst[1]:bank[0], head_lst[2]:bank[1], head_lst[3]:bank[2], head_lst[4]:bank[3], head_lst[5]:bank[4], head_lst[6]:bank[5], head_lst[7]:bank[6], head_lst[8]:bank[7], head_lst[9]:bank[8], head_lst[10]:bank[9]})
+print(new_l)
 
-for b in total:
-    print(b)
-    print(len(b))
-
-print(len(head_lst))
-print(type(head_lst))
+with open(fname, 'w', newline='') as f:
+    for b in total:
+        writer = csv.writer(f)
+        writer.writerow(b)
